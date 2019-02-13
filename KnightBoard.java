@@ -33,7 +33,9 @@ public class KnightBoard {
   @throws IllegalArgumentException when either parameter is negative
   or out of bounds.*/
   public boolean solve(int startingRow, int startingCol) {
-
+    if (startingRow < 0 || startingCol < 0 || startingRow >= board.length || startingCol >= board[0].length) {
+      throw new IllegalArgumentException("You cannot call solve() and start at a row or column that does not exist!\nHint: You either put in a negative startingRow or StartingCol or went past the board size!") ;
+    }
   }
   // level is the # of the knight
   private boolean solveH(int row ,int col, int level) {
@@ -45,7 +47,9 @@ public class KnightBoard {
   @throws IllegalArgumentException when either parameter is negative
   or out of bounds. */
   public int countSolutions(int startingRow, int startingCol) {
-
+    if (startingRow < 0 || startingCol < 0 || startingRow >= board.length || startingCol >= board[0].length) {
+      throw new IllegalArgumentException("You cannot call solve() and start at a row or column that does not exist!\nHint: You either put in a negative startingRow or StartingCol or went past the board size!") ;
+    }
   }
 
 

@@ -79,14 +79,14 @@ public class KnightBoard {
     }
     else {
       // these booleans represent the different possibilities of moving the knight
-      boolean case1 = solveH();
-      boolean case2 = ;
-      boolean case3 = ;
-      boolean case4 = ;
-      boolean case5 = ;
-      boolean case6 = ;
-      boolean case7 = ;
-      boolean case8 = ;
+      boolean case1 = solveH(row + coordinates[0][0], col + coordinates[0][1], level++) ;
+      boolean case2 = solveH(row + coordinates[1][0], col + coordinates[1][1], level++) ;
+      boolean case3 = solveH(row + coordinates[2][0], col + coordinates[2][1], level++) ;
+      boolean case4 = solveH(row + coordinates[3][0], col + coordinates[3][1], level++) ;
+      boolean case5 = solveH(row + coordinates[4][0], col + coordinates[4][1], level++) ;
+      boolean case6 = solveH(row + coordinates[5][0], col + coordinates[5][1], level++) ;
+      boolean case7 = solveH(row + coordinates[6][0], col + coordinates[6][1], level++) ;
+      boolean case8 = solveH(row + coordinates[7][0], col + coordinates[7][1], level++) ;
       return (case1 || case2 || case3 || case4 || case5 || case6 || case7 || case8) ;
     }
   }

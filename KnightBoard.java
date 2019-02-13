@@ -1,15 +1,22 @@
 public class KnightBoard {
-  
+
   private int[][] board ;
+  private int[][] coordinates ;
 
   // Constructor
   public KnightBoard(int startingRows,int startingCols) {
+    if (startingRows < 0 || startingCols < 0) {
+      throw new IllegalArgumentException("For this lab, we cannot create a board whose dimensions are negative!") ;
+    }
     board = new int[startingRows][startingCols] ;
     for (int r = 0 ; r < startingRows ; r++) {
       for (int c = 0 ; c < startingCols ; c++) {
         board[r][c] = 0 ;
       }
     }
+    //Attempt at initializing coordinates 2d array
+    int[][] coor = { {2,1}, {-2,1}, {2,-1}, {-2,-1}, {1,2}, {-1,2}, {1,-2}, {-1,-2} } ;
+    coordinates = coor ;
   }
 
   /* toString method

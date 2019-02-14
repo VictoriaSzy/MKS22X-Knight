@@ -59,6 +59,13 @@ public class KnightBoard {
     if (m % 2 == 1 && n % 2 == 1) return false ;
     if (m == 1 || m == 2 || m == 4) return false ;
     if (m == 3 && (n == 4 || n == 6 || n == 8)) return false ;
+    for (int[] row : board) {
+      for (int tile : row) {
+        if (tile != 0) {
+          throw new IllegalStateException("The board is not empty! Therefore, we cannot and will not solve it!") ;
+        }
+      }
+    }
     return solveH(0,0,1) ;
   }
   /** level is the # of the knight

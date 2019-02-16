@@ -1,7 +1,31 @@
 public class KnightBoard {
 
   private int[][] board ;
-  private int[][] coordinates ; // represents possible movements
+  private int[][] coordinates = { {2,1}, {-2,1}, {2,-1}, {-2,-1}, {1,2}, {-1,2}, {1,-2}, {-1,-2} } ;
+  // represents possible movements
+
+  public static void main(String[] args) {
+    System.out.println("We're going to create 4 boards (from 5x5 to 8x8) and run solve from 0,0!") ;
+    System.out.println("\nLet's create a KnightBoard of size 5x5!") ;
+    KnightBoard b = new KnightBoard(5,5) ;
+    System.out.println("Here is how the board looks in the beginning:\n" + b.toString()) ;
+    System.out.println("Expected response for solve is true and we got: " + b.solve(0,0)) ;
+    /*System.out.println("\nLet's create a KnightBoard of size 6x6!") ;
+    KnightBoard c = new KnightBoard(6,6) ;
+    System.out.println("Here is how the board looks in the beginning:\n" + c.toString()) ;
+    System.out.println("Let's try to solve the board from 0,0!") ;
+    System.out.println("Expected response for solve is false and we got: " + c.solve(0,0)) ;
+    System.out.println("\nLet's create a KnightBoard of size 7x7!") ;
+    KnightBoard d = new KnightBoard(7,7) ;
+    System.out.println("Here is how the board looks in the beginning:\n" + d.toString()) ;
+    System.out.println("Let's try to solve the board from 0,0!") ;
+    System.out.println("Expected response for solve is true and we got: " + d.solve(0,0)) ;
+    System.out.println("\nLet's create a KnightBoard of size 8x8!") ;
+    KnightBoard e = new KnightBoard(8,8) ;
+    System.out.println("Here is how the board looks in the beginning:\n" + e.toString()) ;
+    System.out.println("Let's try to solve the board from 0,0!") ;
+    System.out.println("Expected response for solve is true and we got: " + e.solve(0,0)) ;*/
+  }
 
   /** Constructor:
   *@throws IllegalArgumentException when either parameter is <= 0.
@@ -16,9 +40,18 @@ public class KnightBoard {
         board[r][c] = 0 ;
       }
     }
-    // Attempt at initializing coordinates 2d array
-    int[][] coor = { {2,1}, {-2,1}, {2,-1}, {-2,-1}, {1,2}, {-1,2}, {1,-2}, {-1,-2} } ;
-    coordinates = coor ;
+  }
+
+  public boolean addKnight(int r, int c, int level) {
+    if (board[r][c] != 0) return false ;
+    int l = board.length ;
+    board[r][c] = level ;
+    return true ;
+  }
+
+  public boolean removeKnight(int r, int c, int level) {
+    board[r][c] = 0 ;
+    return true ;
   }
 
   /* toString method
@@ -27,13 +60,12 @@ public class KnightBoard {
   */
   public String toString() {
     String res = "" ;
-    if (!solve(0,0)) {
-      // the board is not solvable
-
-    }
     for (int r = 0 ; r < board.length ; r++) {
       for (int c = 0 ; c < board[0].length ; c++) {
         if (board[r][c] == 0) res += "_ " ;
+        else {
+          res += board[r][c] + " " ;
+        }
       }
       res += "\n" ;
     }
@@ -44,21 +76,13 @@ public class KnightBoard {
   *@throws IllegalStateException when the board contains non-zero values.
   *@throws IllegalArgumentException when either parameter is negative or out of bounds
   *@return true when the board is solvable from the specified starting position
-  *Any m × n board with m ≤ n, a closed knight's tour is always possible
-  *unless one or more of these three conditions are met:
-  * ~ m and n are both odd
-  * ~ m = 1, 2, or 4
-  * ~ m = 3 and n = 4, 6, or 8.
   */
   public boolean solve(int startingRow, int startingCol) {
+    System.out.println("Solve is starting!") ;
     if (startingRow < 0 || startingCol < 0 || startingRow >= board.length || startingCol >= board[0].length) {
       throw new IllegalArgumentException("You cannot call solve() and start at a row or column that does not exist!\nHint: You either put in a negative startingRow or StartingCol or went past the board size!") ;
     }
-    int m = board.length ;
-    int n = board[0].length ;
-    if (m % 2 == 1 && n % 2 == 1) return false ;
-    if (m == 1 || m == 2 || m == 4) return false ;
-    if (m == 3 && (n == 4 || n == 6 || n == 8)) return false ;
+    System.out.println("We've made it through half of the code in solve! Now we're going to check whether the board is empty!") ;
     for (int[] row : board) {
       for (int tile : row) {
         if (tile != 0) {
@@ -66,36 +90,47 @@ public class KnightBoard {
         }
       }
     }
-    return solveH(0,0,1) ;
+    System.out.println("The board was empty so we can continue!") ;
+    return solveH(startingRow, startingCol, 1) ;
   }
   /** level is the # of the knight
   *@return true when the board is solvable from row,col based on level
   */
   private boolean solveH(int row ,int col, int level) {
+    // check whether row and col won't cause an error
+    if (row < 0 || col < 0 || row >= board.length || col >= board[0].length) return false ;
     int a = board.length * board[0].length ;
+    // base case:
     if (level >= a) {
       // we're at the last possible position of the board
       if (board[row][col] == 0) {
         // we can put the knight down here
         board[row][col] = level ;
+        System.out.println(this.toString()) ;
+        System.out.println("We're going to return true soon; this is the base case!!") ;
         return true ;
       }
       else {
+        System.out.println(this.toString()) ;
+        System.out.println("We're going to return false soon; this is the base case!!") ;
         return false ;
       }
     }
-    else {
-      // these booleans represent the different possibilities of moving the knight
-      boolean case1 = solveH(row + coordinates[0][0], col + coordinates[0][1], level++) ;
-      boolean case2 = solveH(row + coordinates[1][0], col + coordinates[1][1], level++) ;
-      boolean case3 = solveH(row + coordinates[2][0], col + coordinates[2][1], level++) ;
-      boolean case4 = solveH(row + coordinates[3][0], col + coordinates[3][1], level++) ;
-      boolean case5 = solveH(row + coordinates[4][0], col + coordinates[4][1], level++) ;
-      boolean case6 = solveH(row + coordinates[5][0], col + coordinates[5][1], level++) ;
-      boolean case7 = solveH(row + coordinates[6][0], col + coordinates[6][1], level++) ;
-      boolean case8 = solveH(row + coordinates[7][0], col + coordinates[7][1], level++) ;
-      return (case1 || case2 || case3 || case4 || case5 || case6 || case7 || case8) ;
+    System.out.println("We're not at the end so we're going past the base case now!") ;
+    boolean positive, notOutside ;
+    if (board[row][col] == 0) {
+      board[row][col] = level ;
+      for (int i = 0 ; i < coordinates.length ; i++) {
+        System.out.println(this.toString()) ;
+        positive = row + coordinates[i][0] >= 0 && col + coordinates[i][1] >= 0 ;
+        notOutside = row + coordinates[i][0] < board.length && col + coordinates[i][1] < board[0].length ;
+        if (positive && notOutside) {
+          if (solveH(row + coordinates[i][0], col + coordinates[i][1], level + 1)) return true ;
+        }
+      }
+      board[row][col] = 0 ;
     }
+    return false ;
   }
 
   /** would only work on smaller boards!
@@ -107,6 +142,7 @@ public class KnightBoard {
     if (startingRow < 0 || startingCol < 0 || startingRow >= board.length || startingCol >= board[0].length) {
       throw new IllegalArgumentException("You cannot call solve() and start at a row or column that does not exist!\nHint: You either put in a negative startingRow or StartingCol or went past the board size!") ;
     }
+    return 0 ;
   }
 
 

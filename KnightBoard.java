@@ -2,15 +2,16 @@ public class KnightBoard {
 
   private int[][] board ;
   private int[][] coordinates = { {2,1}, {-2,1}, {2,-1}, {-2,-1}, {1,2}, {-1,2}, {1,-2}, {-1,-2} } ;
+  int a ; // this will represent the area of the board
   // represents possible movements
 
   public static void main(String[] args) {
-    System.out.println("We're going to create 4 boards (from 5x5 to 8x8) and run solve!") ;
+    /*System.out.println("We're going to create 4 boards (from 5x5 to 8x8) and run solve!") ;
     System.out.println("\nLet's create a KnightBoard of size 5x5!") ;
     KnightBoard b = new KnightBoard(5,5) ;
     System.out.println("Here is how the board looks in the beginning:\n" + b.toString()) ;
     System.out.println("Expected response for solve is true and we got: " + b.solve(0,0) + "\n" + b.toString()) ;
-    /*System.out.println("\nLet's create a KnightBoard of size 6x6!") ;
+    System.out.println("\nLet's create a KnightBoard of size 6x6!") ;
     KnightBoard c = new KnightBoard(6,6) ;
     System.out.println("Here is how the board looks in the beginning:\n" + c.toString()) ;
     System.out.println("Let's try to solve the board from 0,0!") ;
@@ -26,9 +27,15 @@ public class KnightBoard {
     System.out.println("Let's try to solve the board from 1,1!") ;
     System.out.println(e.solve(0,0)) ;
     System.out.println("***************** COUNTING SOLUTIONS ***********************************") ;
-    KnightBoard a = new KnightBoard(5,5) ;
+    KnightBoard aa = new KnightBoard(5,5) ;
     System.out.println("We created a board of 5x5. Let's count how many solutions there are, starting from 0,1!") ;
-    System.out.println("The expected # of solutions is 0 and we got: " + a.countSolutions(0,1)) ;*/
+    System.out.println("The expected # of solutions is 0 and we got: " + aa.countSolutions(0,1)) ;
+    KnightBoard bb = new KnightBoard(5,5) ;
+    System.out.println("We created another board of 5x5. Let's count how many solutions there are, starting from 2,4!") ;
+    System.out.println("The expected # of solutions is 56 and we got: " + bb.countSolutions(2,4)) ;
+    KnightBoard aa = new KnightBoard(5,5) ;
+    System.out.println("We created a board of 5x5. Let's count how many solutions there are, starting from 0,1!") ;
+    System.out.println("The expected # of solutions is 0 and we got: " + aa.countSolutions(0,1)) ;*/
   }
 
   /** Constructor:
@@ -44,6 +51,7 @@ public class KnightBoard {
         board[r][c] = 0 ;
       }
     }
+    a = board.length * board[0].length ;
   }
 
   /* toString method
@@ -92,7 +100,6 @@ public class KnightBoard {
     // check whether row and col won't cause an error
     if (row < 0 || col < 0 || row >= board.length || col >= board[0].length) return false ;
     // this replaces the booleans positive and notOutside that I had before
-    int a = board.length * board[0].length ;
     if (level > a) {
       // we're at the last possible position of the board
       return true ;
@@ -131,24 +138,16 @@ public class KnightBoard {
   @return number of solutions to the knights tour by calling itself again and again until
   *it reaches the end where there are no more tiles available
   */
-  public int countH(int r, int c, int level) {
+  public int countH(int row, int col, int level) {
+    if (row < 0 || col < 0 || row >= board.length || col >= board[row].length) return 0 ;
+    if (board[row][col] != 0) return 0 ;
+    if (level == a) return 1 ;
     int total = 0 ;
-    int a = board.length * board[0].length ;
-    if (board[r][c] == 0) {
-      if (level == a) {
-        // we made it to the end of the board
-        return 1 ;
-      }
-      boolean positive, notOutside ;
-      for (int i = 0 ; i <= coordinates.length ; i++) {
-        positive = r + coordinates[i][0] >= 0 && c + coordinates[i][1] >= 0 ;
-        notOutside = r + coordinates[i][0] < board.length && c + coordinates[i][1] < board[0].length ;
-        if (positive && notOutside) {
-          board[r][c] = level ;
-          total += countH(r + coordinates[i][0], c + coordinates[i][1], level + 1) ;
-          board[r][c] = 0 ;
-        }
-      }
+    for (int i = 0 ; i < coordinates.length ; i++) {
+      board[row][col] = level ;
+      //System.out.println("This is how the board looks before we try another move: \n" + this.toString()) ;
+      total += countH(row + coordinates[i][0], col + coordinates[i][1], level + 1 ) ;
+      board[row][col] = 0 ;
     }
     return total ;
   }

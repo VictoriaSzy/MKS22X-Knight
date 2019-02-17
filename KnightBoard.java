@@ -5,26 +5,30 @@ public class KnightBoard {
   // represents possible movements
 
   public static void main(String[] args) {
-    System.out.println("We're going to create 4 boards (from 5x5 to 8x8) and run solve from 0,0!") ;
+    System.out.println("We're going to create 4 boards (from 5x5 to 8x8) and run solve!") ;
     System.out.println("\nLet's create a KnightBoard of size 5x5!") ;
     KnightBoard b = new KnightBoard(5,5) ;
     System.out.println("Here is how the board looks in the beginning:\n" + b.toString()) ;
-    System.out.println("Expected response for solve is true and we got: " + b.solve(0,0)) ;
+    System.out.println("Expected response for solve is true and we got: " + b.solve(0,0) + "\n" + b.toString()) ;
     /*System.out.println("\nLet's create a KnightBoard of size 6x6!") ;
     KnightBoard c = new KnightBoard(6,6) ;
     System.out.println("Here is how the board looks in the beginning:\n" + c.toString()) ;
     System.out.println("Let's try to solve the board from 0,0!") ;
-    System.out.println("Expected response for solve is false and we got: " + c.solve(0,0)) ;
+    System.out.println(c.solve(0,0)) ;
     System.out.println("\nLet's create a KnightBoard of size 7x7!") ;
     KnightBoard d = new KnightBoard(7,7) ;
     System.out.println("Here is how the board looks in the beginning:\n" + d.toString()) ;
     System.out.println("Let's try to solve the board from 0,0!") ;
-    System.out.println("Expected response for solve is true and we got: " + d.solve(0,0)) ;
+    System.out.println(d.solve(0,0)) ;
     System.out.println("\nLet's create a KnightBoard of size 8x8!") ;
     KnightBoard e = new KnightBoard(8,8) ;
     System.out.println("Here is how the board looks in the beginning:\n" + e.toString()) ;
-    System.out.println("Let's try to solve the board from 0,0!") ;
-    System.out.println("Expected response for solve is true and we got: " + e.solve(0,0)) ;*/
+    System.out.println("Let's try to solve the board from 1,1!") ;
+    System.out.println(e.solve(0,0)) ;
+    System.out.println("***************** COUNTING SOLUTIONS ***********************************") ;
+    KnightBoard a = new KnightBoard(5,5) ;
+    System.out.println("We created a board of 5x5. Let's count how many solutions there are, starting from 0,1!") ;
+    System.out.println("The expected # of solutions is 0 and we got: " + a.countSolutions(0,1)) ;*/
   }
 
   /** Constructor:
@@ -66,11 +70,11 @@ public class KnightBoard {
   *@return true when the board is solvable from the specified starting position
   */
   public boolean solve(int startingRow, int startingCol) {
-    System.out.println("Solve is starting!") ;
+    //System.out.println("Solve is starting!") ;
     if (startingRow < 0 || startingCol < 0 || startingRow >= board.length || startingCol >= board[0].length) {
       throw new IllegalArgumentException("You cannot call solve and start at a row or column that does not exist!\nHint: You either put in a negative startingRow or StartingCol or went past the board size!") ;
     }
-    System.out.println("We've made it through half of the code in solve! Now we're going to check whether the board is empty!") ;
+    //System.out.println("We've made it through half of the code in solve! Now we're going to check whether the board is empty!") ;
     for (int[] row : board) {
       for (int tile : row) {
         if (tile != 0) {
@@ -78,7 +82,7 @@ public class KnightBoard {
         }
       }
     }
-    System.out.println("The board was empty so we can continue!") ;
+    //System.out.println("The board was empty so we can continue!") ;
     return solveH(startingRow, startingCol, 1) ;
   }
   /** level is the # of the knight
@@ -87,35 +91,19 @@ public class KnightBoard {
   private boolean solveH(int row ,int col, int level) {
     // check whether row and col won't cause an error
     if (row < 0 || col < 0 || row >= board.length || col >= board[0].length) return false ;
+    // this replaces the booleans positive and notOutside that I had before
     int a = board.length * board[0].length ;
-    // base case:
-    if (level >= a) {
+    if (level > a) {
       // we're at the last possible position of the board
-      if (board[row][col] == 0) {
-        // we can put the knight down here
-        board[row][col] = level ;
-        //System.out.println(this.toString()) ;
-        System.out.println("We're going to return true soon; this is the base case!!") ;
-        return true ;
-      }
-      else {
-        //System.out.println(this.toString()) ;
-        System.out.println("We're going to return false soon; this is the base case!!") ;
-        return false ;
-      }
+      return true ;
     }
-    //System.out.println("We're not at the end so we're going past the base case now!") ;
-    boolean positive, notOutside ;
-    if (board[row][col] == 0) {
+    if (row < 0 || col < 0 || row >= board.length || col >= board[row].length) return false ;
+    if (board[row][col] != 0) return false ;
+    //System.out.println("We're not at the end so we're going past the base cases now!") ;
+    for (int i = 0 ; i < coordinates.length ; i++) {
       board[row][col] = level ;
-      for (int i = 0 ; i < coordinates.length ; i++) {
-        System.out.println(this.toString()) ;
-        positive = row + coordinates[i][0] >= 0 && col + coordinates[i][1] >= 0 ;
-        notOutside = row + coordinates[i][0] < board.length && col + coordinates[i][1] < board[0].length ;
-        if (positive && notOutside) {
-          if (solveH(row + coordinates[i][0], col + coordinates[i][1], level + 1)) return true ;
-        }
-      }
+      //System.out.println(this.toString()) ;
+      if (solveH(row + coordinates[i][0], col + coordinates[i][1], level + 1)) return true ;
       board[row][col] = 0 ;
     }
     return false ;

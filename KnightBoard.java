@@ -139,9 +139,28 @@ public class KnightBoard {
     }
     return countH(startingRow, startingCol, 1) ;
   }
-
+  /** Helper method for countSolutions
+  @return number of solutions to the knights tour by calling itself again and again until
+  *it reaches the end where there are no more tiles available
+  */
   public int countH(int r, int c, int level) {
     int total = 0 ;
+    int a = board.length * board[0].length ;
+    if (board[r][c] == 0) {
+      if (level == a) {
+        // we made it to the end of the board
+        return 1 ;
+      }
+      boolean positive, notOutside ;
+      for (int i = 0 ; i <= coordinates.length ; i++) {
+        positive = r + coordinates[i][0] >= 0 && c + coordinates[i][1] >= 0 ;
+        notOutside = r + coordinates[i][0] < board.length && c + coordinates[i][1] < board[0].length ;
+        if (positive && notOutside) {
+          board[r][c] = level ;
+          total += countH(r + coordinates[i][0], c + coordinates[i][1], level + 1) ;
+        }
+      }
+    }
     return total ;
   }
 }

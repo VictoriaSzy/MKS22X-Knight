@@ -5,17 +5,17 @@ public class KnightBoard {
   // represents possible movements
 
   public static void main(String[] args) {
-    System.out.println("We're going to create 4 boards (from 5x5 to 8x8) and run solve from 0,0!") ;
+    /*System.out.println("We're going to create 4 boards (from 5x5 to 8x8) and run solve from 0,0!") ;
     System.out.println("\nLet's create a KnightBoard of size 5x5!") ;
     KnightBoard b = new KnightBoard(5,5) ;
     System.out.println("Here is how the board looks in the beginning:\n" + b.toString()) ;
-    System.out.println("Expected response for solve is true and we got: " + b.solve(0,0)) ;
-    /*System.out.println("\nLet's create a KnightBoard of size 6x6!") ;
+    System.out.println("Expected response for solve is true and we got: " + b.solve(0,0)) ;*/
+    System.out.println("\nLet's create a KnightBoard of size 6x6!") ;
     KnightBoard c = new KnightBoard(6,6) ;
     System.out.println("Here is how the board looks in the beginning:\n" + c.toString()) ;
     System.out.println("Let's try to solve the board from 0,0!") ;
     System.out.println("Expected response for solve is false and we got: " + c.solve(0,0)) ;
-    System.out.println("\nLet's create a KnightBoard of size 7x7!") ;
+    /*System.out.println("\nLet's create a KnightBoard of size 7x7!") ;
     KnightBoard d = new KnightBoard(7,7) ;
     System.out.println("Here is how the board looks in the beginning:\n" + d.toString()) ;
     System.out.println("Let's try to solve the board from 0,0!") ;
@@ -94,17 +94,17 @@ public class KnightBoard {
       if (board[row][col] == 0) {
         // we can put the knight down here
         board[row][col] = level ;
-        System.out.println(this.toString()) ;
+        //System.out.println(this.toString()) ;
         System.out.println("We're going to return true soon; this is the base case!!") ;
         return true ;
       }
       else {
-        System.out.println(this.toString()) ;
+        //System.out.println(this.toString()) ;
         System.out.println("We're going to return false soon; this is the base case!!") ;
         return false ;
       }
     }
-    System.out.println("We're not at the end so we're going past the base case now!") ;
+    //System.out.println("We're not at the end so we're going past the base case now!") ;
     boolean positive, notOutside ;
     if (board[row][col] == 0) {
       board[row][col] = level ;

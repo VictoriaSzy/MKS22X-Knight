@@ -42,18 +42,6 @@ public class KnightBoard {
     }
   }
 
-  public boolean addKnight(int r, int c, int level) {
-    if (board[r][c] != 0) return false ;
-    int l = board.length ;
-    board[r][c] = level ;
-    return true ;
-  }
-
-  public boolean removeKnight(int r, int c, int level) {
-    board[r][c] = 0 ;
-    return true ;
-  }
-
   /* toString method
   blank boards display 0's as underscores
   you get a blank board if you never called solve or when there is no solution
@@ -80,7 +68,7 @@ public class KnightBoard {
   public boolean solve(int startingRow, int startingCol) {
     System.out.println("Solve is starting!") ;
     if (startingRow < 0 || startingCol < 0 || startingRow >= board.length || startingCol >= board[0].length) {
-      throw new IllegalArgumentException("You cannot call solve() and start at a row or column that does not exist!\nHint: You either put in a negative startingRow or StartingCol or went past the board size!") ;
+      throw new IllegalArgumentException("You cannot call solve and start at a row or column that does not exist!\nHint: You either put in a negative startingRow or StartingCol or went past the board size!") ;
     }
     System.out.println("We've made it through half of the code in solve! Now we're going to check whether the board is empty!") ;
     for (int[] row : board) {
@@ -140,10 +128,15 @@ public class KnightBoard {
   */
   public int countSolutions(int startingRow, int startingCol) {
     if (startingRow < 0 || startingCol < 0 || startingRow >= board.length || startingCol >= board[0].length) {
-      throw new IllegalArgumentException("You cannot call solve() and start at a row or column that does not exist!\nHint: You either put in a negative startingRow or StartingCol or went past the board size!") ;
+      throw new IllegalArgumentException("You cannot call countSolutions and start at a row or column that does not exist!\nHint: You either put in a negative startingRow or StartingCol or went past the board size!") ;
     }
-    return 0 ;
+    for (int r = 0 ; r < board.length ; r++) {
+      for (int c = 0 ; c < board[0].length ; c++) {
+        if (board[r][c] != 0) {
+          throw new IllegalStateException("You cannot call countSolutions with a non-empty board!") ;
+        }
+      }
+    }
   }
-
 
 }

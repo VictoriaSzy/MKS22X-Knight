@@ -137,6 +137,11 @@ public class KnightBoard {
         }
       }
     }
+    return countH(startingRow, startingCol, 1) ;
   }
 
+  public int countH(int r, int c, int level) {
+    int total = 0 ;
+    return total ;
+  }
 }

@@ -62,7 +62,10 @@ public class KnightBoard {
     String res = "" ;
     for (int r = 0 ; r < board.length ; r++) {
       for (int c = 0 ; c < board[0].length ; c++) {
-        if (board[r][c] == 0) res += "_ " ;
+        if (board[r][c] == 0) res += " _ " ;
+        else if (board[r][c] < 10) {
+          res += " " + board[r][c] + " " ;
+        }
         else {
           res += board[r][c] + " " ;
         }

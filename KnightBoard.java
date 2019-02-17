@@ -5,17 +5,17 @@ public class KnightBoard {
   // represents possible movements
 
   public static void main(String[] args) {
-    /*System.out.println("We're going to create 4 boards (from 5x5 to 8x8) and run solve from 0,0!") ;
+    System.out.println("We're going to create 4 boards (from 5x5 to 8x8) and run solve from 0,0!") ;
     System.out.println("\nLet's create a KnightBoard of size 5x5!") ;
     KnightBoard b = new KnightBoard(5,5) ;
     System.out.println("Here is how the board looks in the beginning:\n" + b.toString()) ;
-    System.out.println("Expected response for solve is true and we got: " + b.solve(0,0)) ;*/
-    System.out.println("\nLet's create a KnightBoard of size 6x6!") ;
+    System.out.println("Expected response for solve is true and we got: " + b.solve(0,0)) ;
+    /*System.out.println("\nLet's create a KnightBoard of size 6x6!") ;
     KnightBoard c = new KnightBoard(6,6) ;
     System.out.println("Here is how the board looks in the beginning:\n" + c.toString()) ;
     System.out.println("Let's try to solve the board from 0,0!") ;
     System.out.println("Expected response for solve is false and we got: " + c.solve(0,0)) ;
-    /*System.out.println("\nLet's create a KnightBoard of size 7x7!") ;
+    System.out.println("\nLet's create a KnightBoard of size 7x7!") ;
     KnightBoard d = new KnightBoard(7,7) ;
     System.out.println("Here is how the board looks in the beginning:\n" + d.toString()) ;
     System.out.println("Let's try to solve the board from 0,0!") ;
@@ -158,6 +158,7 @@ public class KnightBoard {
         if (positive && notOutside) {
           board[r][c] = level ;
           total += countH(r + coordinates[i][0], c + coordinates[i][1], level + 1) ;
+          board[r][c] = 0 ;
         }
       }
     }

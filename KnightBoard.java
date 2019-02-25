@@ -2,10 +2,14 @@ public class KnightBoard {
 
   private int[][] board ;
   private int[][] coordinates = { {2,1}, {-2,1}, {2,-1}, {-2,-1}, {1,2}, {-1,2}, {1,-2}, {-1,-2} } ;
-  int a ; // this will represent the area of the board
   // represents possible movements
+  int a ; // this will represent the area of the board
 
   public static void main(String[] args) {
+    for (int i = 0 ; i < 5 ; i++) {
+      System.out.println("The current index is " + i) ;
+      runTest(i) ;
+    }
     /*System.out.println("We're going to create 4 boards (from 5x5 to 8x8) and run solve!") ;
     System.out.println("\nLet's create a KnightBoard of size 5x5!") ;
     KnightBoard b = new KnightBoard(5,5) ;
@@ -15,27 +19,24 @@ public class KnightBoard {
     KnightBoard c = new KnightBoard(6,6) ;
     System.out.println("Here is how the board looks in the beginning:\n" + c.toString()) ;
     System.out.println("Let's try to solve the board from 0,0!") ;
-    System.out.println(c.solve(0,0)) ;
+    System.out.println(c.solve(0,0) + "\n" + c.toString()) ;
     System.out.println("\nLet's create a KnightBoard of size 7x7!") ;
     KnightBoard d = new KnightBoard(7,7) ;
     System.out.println("Here is how the board looks in the beginning:\n" + d.toString()) ;
     System.out.println("Let's try to solve the board from 0,0!") ;
-    System.out.println(d.solve(0,0)) ;
+    System.out.println(d.solve(0,0) + "\n" + d.toString()) ;
     System.out.println("\nLet's create a KnightBoard of size 8x8!") ;
-    KnightBoard e = new KnightBoard(8,8) ;
+    KnightBoard e = new KnightBoard(8,8) ; // this takes a long time
     System.out.println("Here is how the board looks in the beginning:\n" + e.toString()) ;
     System.out.println("Let's try to solve the board from 1,1!") ;
-    System.out.println(e.solve(0,0)) ;
+    System.out.println(e.solve(0,0) + "\n" + e.toString()) ;
     System.out.println("***************** COUNTING SOLUTIONS ***********************************") ;
     KnightBoard aa = new KnightBoard(5,5) ;
     System.out.println("We created a board of 5x5. Let's count how many solutions there are, starting from 0,1!") ;
     System.out.println("The expected # of solutions is 0 and we got: " + aa.countSolutions(0,1)) ;
     KnightBoard bb = new KnightBoard(5,5) ;
     System.out.println("We created another board of 5x5. Let's count how many solutions there are, starting from 2,4!") ;
-    System.out.println("The expected # of solutions is 56 and we got: " + bb.countSolutions(2,4)) ;
-    KnightBoard aa = new KnightBoard(5,5) ;
-    System.out.println("We created a board of 5x5. Let's count how many solutions there are, starting from 0,1!") ;
-    System.out.println("The expected # of solutions is 0 and we got: " + aa.countSolutions(0,1)) ;*/
+    System.out.println("The expected # of solutions is 56 and we got: " + bb.countSolutions(2,4)) ;*/
   }
 
   /** Constructor:
@@ -153,5 +154,33 @@ public class KnightBoard {
       board[row][col] = 0 ;
     }
     return total ;
+  }
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //testcase must be a valid index of your input/output array
+  public static void runTest(int i){
+    KnightBoard b;
+    int[]m =   {4,5,5,5,5};
+    int[]n =   {4,5,4,5,5};
+    int[]startx = {0,0,0,1,2};
+    int[]starty = {0,0,0,1,2};
+    int[]answers = {0,304,32,56,64};
+    if(i >= 0 && i < 6){
+      try{
+        int correct = answers[i];
+        b = new KnightBoard(m[i%m.length],n[i%m.length]);
+
+        int ans  = b.countSolutions(startx[i],starty[i]);
+
+        if(correct==ans){
+          System.out.println("PASS board size: "+m[i%m.length]+"x"+n[i%m.length]+" "+ans);
+        }else{
+          System.out.println("FAIL board size: "+m[i%m.length]+"x"+n[i%m.length]+" "+ans+" vs "+correct);
+        }
+      }catch(Exception e){
+        System.out.println("FAIL Exception case: "+i);
+
+      }
+    }
   }
 }

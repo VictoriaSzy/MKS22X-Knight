@@ -6,11 +6,11 @@ public class KnightBoard {
   int a ; // this will represent the area of the board
 
   public static void main(String[] args) {
-    for (int i = 0 ; i < 5 ; i++) {
+    /*for (int i = 0 ; i < 5 ; i++) {
       System.out.println("The current index is " + i) ;
       runTest(i) ;
     }
-    /*System.out.println("We're going to create 4 boards (from 5x5 to 8x8) and run solve!") ;
+    System.out.println("We're going to create 4 boards (from 5x5 to 8x8) and run solve!") ;
     System.out.println("\nLet's create a KnightBoard of size 5x5!") ;
     KnightBoard b = new KnightBoard(5,5) ;
     System.out.println("Here is how the board looks in the beginning:\n" + b.toString()) ;

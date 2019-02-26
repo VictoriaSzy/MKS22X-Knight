@@ -97,6 +97,13 @@ public class KnightBoard {
     //System.out.println("The board was empty so we can continue!") ;
     return solveH(startingRow, startingCol, 1) ;
   }
+  private boolean solveOptimization(int row, int col, int level) {
+    if (level == row * col) {
+      board[row][col] = level ;
+      return true ;
+    }
+    return false ;
+  }
   /** level is the # of the knight
   *@return true when the board is solvable from row,col based on level
   */

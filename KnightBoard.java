@@ -98,10 +98,12 @@ public class KnightBoard {
     return solveH(startingRow, startingCol, 1) ;
   }
   private boolean solveOptimization(int row, int col, int level) {
-    if (level == row * col) {
+    if (level == a) {
       board[row][col] = level ;
       return true ;
     }
+    if (row < 0 || col < 0 || row >= board.length || col >= board[0].length) return false ;
+    if (board[row][col] != 0) return false ;
     return false ;
   }
   /** level is the # of the knight
@@ -111,18 +113,20 @@ public class KnightBoard {
     // check whether row and col won't cause an error
     if (row < 0 || col < 0 || row >= board.length || col >= board[0].length) return false ;
     // this replaces the booleans positive and notOutside that I had before
-    if (level > a) {
+    if (level >= a) {
       // we're at the last possible position of the board
+      board[row][col] = level ;
       return true ;
     }
-    if (row < 0 || col < 0 || row >= board.length || col >= board[row].length) return false ;
     if (board[row][col] != 0) return false ;
     //System.out.println("We're not at the end so we're going past the base cases now!") ;
     for (int i = 0 ; i < coordinates.length ; i++) {
       board[row][col] = level ;
       //System.out.println(this.toString()) ;
       if (solveH(row + coordinates[i][0], col + coordinates[i][1], level + 1)) return true ;
-      board[row][col] = 0 ;
+      else {
+        board[row][col] = 0 ;
+      }
     }
     return false ;
   }

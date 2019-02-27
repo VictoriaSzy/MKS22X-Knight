@@ -27,14 +27,14 @@ public class KnightBoard {
     KnightBoard d = new KnightBoard(7,7) ;
     System.out.println("Here is how the board looks in the beginning:\n" + d.toString()) ;
     System.out.println("Let's try to solve the board from 0,0!") ;
-    System.out.println(d.solveOptimized(0,0) + "\n" + d.toString()) ;*/
+    System.out.println(d.solveOptimized(0,0) + "\n" + d.toString()) ;
     System.out.println("***************** COUNTING SOLUTIONS ***********************************") ;
     KnightBoard aa = new KnightBoard(5,5) ;
     System.out.println("We created a board of 5x5. Let's count how many solutions there are, starting from 0,1!") ;
     System.out.println("The expected # of solutions is 0 and we got: " + aa.countSolutions(0,1)) ;
     KnightBoard bb = new KnightBoard(5,5) ;
     System.out.println("We created another board of 5x5. Let's count how many solutions there are, starting from 2,4!") ;
-    System.out.println("The expected # of solutions is 56 and we got: " + bb.countSolutions(2,4)) ;
+    System.out.println("The expected # of solutions is 56 and we got: " + bb.countSolutions(2,4)) ;*/
   }
 
   /** Constructor:

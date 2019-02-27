@@ -125,19 +125,34 @@ public class KnightBoard {
       optimize[row][col].makeAMove(level) ;
       for (int i = 0 ; i < possibleMoves.size() ; i++) {
         // try out the moves and see if it can return true
-        if( solveH(possibleMoves.get(i).getRow(), possibleMoves.get(i).getCol(), level + 1) ) {
-          return true ;
-        }
+        if ( solveH(possibleMoves.get(i).getRow(), possibleMoves.get(i).getCol(), level + 1) ) return true ;
       }
       optimize[row][col].goBack() ;
     }
     // if we can't solve it then that's it
     return false ;
   }
-  private ArrayList<OptimizationClass> makePossibleMoves(int r, int c) {
+  private boolean addKnight(int row, int col, int i) {
+    int tempR, tempC ;
+    tempR = row + coordinates[i][0] ;
+    tempC = col + coordinates[i][1] ;
+    if (tempR >= 0 && tempR < optimize.length && tempC >= 0 && tempC < optimize[0].length) {
+      return optimize[tempR][tempC].isAvailable() ;
+    }
+    else {
+      return false ;
+    }
+  }
+  private ArrayList<OptimizationClass> makePossibleMoves(int row, int col) {
     ArrayList<OptimizationClass> res = new ArrayList<OptimizationClass>() ;
+    for (int i = 0 ; i < 8 ; i++) {
+      if (addKnight(row, col, i)) {
+        
+      }
+    }
     return res ;
   }
+
   /* toString method
   blank boards display 0's as underscores
   you get a blank board if you never called solve or when there is no solution

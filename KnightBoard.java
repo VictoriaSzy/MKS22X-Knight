@@ -97,6 +97,7 @@ public class KnightBoard {
     //System.out.println("The board was empty so we can continue!") ;
     return solveH(startingRow, startingCol, 1) ;
   }
+  /* Attempt at optimization but maybe it'll be easier with a separate class and by using an ArrayList instead
   private boolean solveOptimization(int row, int col, int level) {
     if (level == a) {
       board[row][col] = level ;
@@ -104,8 +105,44 @@ public class KnightBoard {
     }
     if (row < 0 || col < 0 || row >= board.length || col >= board[0].length) return false ;
     if (board[row][col] != 0) return false ;
+    int[] coordinatesOptimized = optimizingCoordinates(row,col) ;
+    for (int i = 0 ; i < coordinatesOptimized.length ; i++) {
+      if (coordinatesOptimized[i] == -1) {
+        // this move is not acceptable so we'll pass it!
+      }
+      else {
+        //the move just might work!
+        board[row][col] = level ;
+        if (solveOptimization(row + coordinates[i][0], col + coordinates[i][1], level + 1)) {
+          return true ;
+        }
+        board[row][col] = 0 ;
+      }
+    }
     return false ;
-  }
+  }*/
+  /*this will help me get rid of any possible pathways that won't make the knights tour work
+  by returning the valid indexes of coordinates that won't go out of bounds
+
+  private int[] optimizingCoordinates(int row, int col) {
+    int[] res = new int[8] ;
+    int rInc, cInc, tempR, tempC ;
+    for (int moveNumber = 0 ; moveNumber < 8 ; moveNumber++) {
+      rInc = coordinates[moveNumber][0] ;
+      cInc = coordinates[moveNumber][1] ;
+      tempR = row + rInc ;
+      tempC = col + cInc ;
+      if (tempR < 0 || tempR > board[0].length || tempC < 0 || tempC > board.length || board[tempR][tempC] != 0) {
+        // this move will not lead to a solution!
+        res[moveNumber] = -1 ;
+      }
+      else {
+        // this move might lead to a solution!
+        res[moveNumber] = moveNumber ;
+      }
+    }
+    return res ;
+  }*/
   /** level is the # of the knight
   *@return true when the board is solvable from row,col based on level
   */

@@ -4,6 +4,7 @@ public class KnightBoard {
   private int[][] coordinates = { {2,1}, {-2,1}, {2,-1}, {-2,-1}, {1,2}, {-1,2}, {1,-2}, {-1,-2} } ;
   // represents possible movements
   int a ; // this will represent the area of the board
+  public OptimizationClass[][] optimize ;
 
   public static void main(String[] args) {
     /*for (int i = 0 ; i < 5 ; i++) {
@@ -53,8 +54,58 @@ public class KnightBoard {
       }
     }
     a = board.length * board[0].length ;
+    optimize = new OptimizationClass[startingRows][startingCols] ;
+    addPossibleMoves() ;
   }
-
+  private void addPossibleMoves() {
+    int opLength = optimize.length ;
+    int numOfCols = optimize[0].length ;
+    for (int r = 0 ; r < opLength ; r++) {
+      for (int c = 0 ; c < numOfCols ; c++) {
+        optimize[r][c] = new OptimizationClass(r, c, 8) ; // start out with 8 moves
+        if (r == 0 || c == 0 || r == opLength - 1 || c == numOfCols - 1) {
+          // we're either in the first or last row OR the first or last col
+          optimize[r][c] = new OptimizationClass(r, c, 4) ;
+        }
+        if ( (r == 0 && c == 0) || (r == 0 && c == numOfCols - 1) || (r == opLength - 1 && c == 0)
+        || (r == opLength - 1 && c == numOfCols - 1) ) {
+          // we're in a corner
+          optimize[r][c] = new OptimizationClass(r, c, 2) ;
+        }
+        if (r == 1 || c == 1 || r == opLength - 2 || c == numOfCols - 2) {
+          // we're either one away from the first or last row OR one away from the first or last col
+          optimize[r][c] = new OptimizationClass(r, c, 6) ;
+        }
+        if ( (r == 0 && c == 1) || (r == 0 && c == numOfCols - 2) || (r == 1 && c == 0)
+        || (r == 1 && c == numOfCols - 1) || (r == opLength - 2 && c == 0)
+        || (r == opLength - 2 && c == numOfCols - 1) || (r == opLength - 1 && c == 1)
+        || (r == opLength - 1 && c == numOfCols - 2) ) {
+          optimize[r][c] = new OptimizationClass(r, c, 3) ;
+        }
+      }
+    }
+    optimize[1][1].changeNumberOfMoves(4) ;
+    optimize[1][numOfCols - 2].changeNumberOfMoves(4) ;
+    optimize[opLength - 2][1].changeNumberOfMoves(4) ;
+    optimize[opLength - 2][numOfCols - 2].changeNumberOfMoves(4) ;
+  }
+  public boolean solveOptimal(int startingRow, int startingCol) {
+    if (startingRow < 0 || startingCol < 0 || startingRow >= board.length || startingCol >= board[0].length) {
+      throw new IllegalArgumentException("You cannot call solve and start at a row or column that does not exist!\nHint: You either put in a negative startingRow or StartingCol or went past the board size!") ;
+    }
+    //System.out.println("We've made it through half of the code in solve! Now we're going to check whether the board is empty!") ;
+    for (int[] row : board) {
+      for (int tile : row) {
+        if (tile != 0) {
+          throw new IllegalStateException("The board is not empty! Therefore, we cannot and will not solve it!") ;
+        }
+      }
+    }
+    return solveOH(startingRow, startingCol, 1) ;
+  }
+  public boolean solveOH(int row, int col, int level) {
+    
+  }
   /* toString method
   blank boards display 0's as underscores
   you get a blank board if you never called solve or when there is no solution

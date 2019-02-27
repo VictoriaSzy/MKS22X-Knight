@@ -1,3 +1,5 @@
+import java.util.* ;
+
 public class KnightBoard {
 
   private int[][] board ;
@@ -58,6 +60,7 @@ public class KnightBoard {
     addPossibleMoves() ;
   }
   private void addPossibleMoves() {
+    // WILL ONLY CHANGE optimize BOARD FOR NOW!
     int opLength = optimize.length ;
     int numOfCols = optimize[0].length ;
     for (int r = 0 ; r < opLength ; r++) {
@@ -103,8 +106,37 @@ public class KnightBoard {
     }
     return solveOH(startingRow, startingCol, 1) ;
   }
+  // helper for solve optimal method
   public boolean solveOH(int row, int col, int level) {
-    
+    int opLength = optimize.length ;
+    int numOfCols = optimize[0].length ;
+    if (row < 0 || col < 0 || row >= opLength || col >= numOfCols) return false ;
+    if (level >= a) {
+      if (optimize[row][col].getVal() == 0 ) {
+        optimize[row][col].makeAMove(level) ;
+        return true ;
+      }
+      else {
+        return false ;
+      }
+    }
+    ArrayList<OptimizationClass> possibleMoves = makePossibleMoves(row, col) ;
+    if (optimize[row][col].getVal() == 0 && level < a) {
+      optimize[row][col].makeAMove(level) ;
+      for (int i = 0 ; i < possibleMoves.size() ; i++) {
+        // try out the moves and see if it can return true
+        if( solveH(possibleMoves.get(i).getRow(), possibleMoves.get(i).getCol(), level + 1) ) {
+          return true ;
+        }
+      }
+      optimize[row][col].goBack() ;
+    }
+    // if we can't solve it then that's it
+    return false ;
+  }
+  private ArrayList<OptimizationClass> makePossibleMoves(int r, int c) {
+    ArrayList<OptimizationClass> res = new ArrayList<OptimizationClass>() ;
+    return res ;
   }
   /* toString method
   blank boards display 0's as underscores

@@ -17,29 +17,24 @@ public class KnightBoard {
     System.out.println("\nLet's create a KnightBoard of size 5x5!") ;
     KnightBoard b = new KnightBoard(5,5) ;
     System.out.println("Here is how the board looks in the beginning:\n" + b.toString()) ;
-    System.out.println("Expected response for solve is true and we got: " + b.solve(0,0) + "\n" + b.toString()) ;
+    System.out.println("Expected response for solve is true and we got: " + b.solveOptimized(0,0) + "\n" + b.toString()) ;
     System.out.println("\nLet's create a KnightBoard of size 6x6!") ;
     KnightBoard c = new KnightBoard(6,6) ;
     System.out.println("Here is how the board looks in the beginning:\n" + c.toString()) ;
     System.out.println("Let's try to solve the board from 0,0!") ;
-    System.out.println(c.solve(0,0) + "\n" + c.toString()) ;
+    System.out.println(c.solveOptimized(0,0) + "\n" + c.toString()) ;
     System.out.println("\nLet's create a KnightBoard of size 7x7!") ;
     KnightBoard d = new KnightBoard(7,7) ;
     System.out.println("Here is how the board looks in the beginning:\n" + d.toString()) ;
     System.out.println("Let's try to solve the board from 0,0!") ;
-    System.out.println(d.solve(0,0) + "\n" + d.toString()) ;
-    System.out.println("\nLet's create a KnightBoard of size 8x8!") ;
-    KnightBoard e = new KnightBoard(8,8) ; // this takes a long time
-    System.out.println("Here is how the board looks in the beginning:\n" + e.toString()) ;
-    System.out.println("Let's try to solve the board from 1,1!") ;
-    System.out.println(e.solve(0,0) + "\n" + e.toString()) ;
+    System.out.println(d.solveOptimized(0,0) + "\n" + d.toString()) ;*/
     System.out.println("***************** COUNTING SOLUTIONS ***********************************") ;
     KnightBoard aa = new KnightBoard(5,5) ;
     System.out.println("We created a board of 5x5. Let's count how many solutions there are, starting from 0,1!") ;
     System.out.println("The expected # of solutions is 0 and we got: " + aa.countSolutions(0,1)) ;
     KnightBoard bb = new KnightBoard(5,5) ;
     System.out.println("We created another board of 5x5. Let's count how many solutions there are, starting from 2,4!") ;
-    System.out.println("The expected # of solutions is 56 and we got: " + bb.countSolutions(2,4)) ;*/
+    System.out.println("The expected # of solutions is 56 and we got: " + bb.countSolutions(2,4)) ;
   }
 
   /** Constructor:
@@ -92,7 +87,7 @@ public class KnightBoard {
     optimize[opLength - 2][1].changeNumberOfMoves(4) ;
     optimize[opLength - 2][numOfCols - 2].changeNumberOfMoves(4) ;
   }
-  public boolean solveOptimal(int startingRow, int startingCol) {
+  public boolean solveOptimized(int startingRow, int startingCol) {
     if (startingRow < 0 || startingCol < 0 || startingRow >= board.length || startingCol >= board[0].length) {
       throw new IllegalArgumentException("You cannot call solve and start at a row or column that does not exist!\nHint: You either put in a negative startingRow or StartingCol or went past the board size!") ;
     }
@@ -147,9 +142,15 @@ public class KnightBoard {
     ArrayList<OptimizationClass> res = new ArrayList<OptimizationClass>() ;
     for (int i = 0 ; i < 8 ; i++) {
       if (addKnight(row, col, i)) {
-        
+        int tempR, tempC ;
+        tempR = row + coordinates[i][0] ;
+        tempC = col + coordinates[i][1] ;
+        res.add(optimize[tempR][tempC]) ;
+        optimize[tempR][tempC].changeNumberOfMoves(optimize[tempR][tempC].getNumberOfMoves() - 1) ;
       }
     }
+    Collections.sort(res) ;
+    // I found more info about sorting from https://www.geeksforgeeks.org/collections-sort-java-examples/
     return res ;
   }
 
@@ -167,6 +168,25 @@ public class KnightBoard {
         }
         else {
           res += board[r][c] + " " ;
+        }
+      }
+      res += "\n" ;
+    }
+    return res ;
+  }
+  // for optimized version
+  public String toStringO() {
+    String res = "" ;
+    for (int r = 0 ; r < optimize.length ; r++) {
+      for (int c = 0 ; c < optimize[r].length ; c++) {
+        if (optimize[r][c].getVal() == 0) {
+          res += "_ " ;
+        }
+        else {
+          if (optimize[r][c].getVal() < 10) res += " " + optimize[r][c].getVal() + " " ;
+          else {
+            res += optimize[r][c].getVal() + " " ;
+          }
         }
       }
       res += "\n" ;

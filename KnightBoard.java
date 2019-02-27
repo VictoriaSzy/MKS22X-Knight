@@ -87,7 +87,8 @@ public class KnightBoard {
     optimize[opLength - 2][1].changeNumberOfMoves(4) ;
     optimize[opLength - 2][numOfCols - 2].changeNumberOfMoves(4) ;
   }
-  public boolean solveOptimized(int startingRow, int startingCol) {
+  // THIS IS THE OPTIMIZED VERSION OF SOLVE!
+  public boolean solve(int startingRow, int startingCol) {
     if (startingRow < 0 || startingCol < 0 || startingRow >= board.length || startingCol >= board[0].length) {
       throw new IllegalArgumentException("You cannot call solve and start at a row or column that does not exist!\nHint: You either put in a negative startingRow or StartingCol or went past the board size!") ;
     }
@@ -99,10 +100,10 @@ public class KnightBoard {
         }
       }
     }
-    return solveOH(startingRow, startingCol, 1) ;
+    return solveH(startingRow, startingCol, 1) ;
   }
   // helper for solve optimal method
-  public boolean solveOH(int row, int col, int level) {
+  public boolean solveH(int row, int col, int level) {
     int opLength = optimize.length ;
     int numOfCols = optimize[0].length ;
     if (row < 0 || col < 0 || row >= opLength || col >= numOfCols) return false ;
@@ -154,11 +155,11 @@ public class KnightBoard {
     return res ;
   }
 
-  /* toString method
+  /* toString method used in the beginning
   blank boards display 0's as underscores
   you get a blank board if you never called solve or when there is no solution
   */
-  public String toString() {
+  public String toStringOLD() {
     String res = "" ;
     for (int r = 0 ; r < board.length ; r++) {
       for (int c = 0 ; c < board[0].length ; c++) {
@@ -174,8 +175,8 @@ public class KnightBoard {
     }
     return res ;
   }
-  // for optimized version
-  public String toStringO() {
+  // for optimized version!
+  public String toString() {
     String res = "" ;
     for (int r = 0 ; r < optimize.length ; r++) {
       for (int c = 0 ; c < optimize[r].length ; c++) {
@@ -199,7 +200,7 @@ public class KnightBoard {
   *@throws IllegalArgumentException when either parameter is negative or out of bounds
   *@return true when the board is solvable from the specified starting position
   */
-  public boolean solve(int startingRow, int startingCol) {
+  public boolean solveOLD(int startingRow, int startingCol) {
     //System.out.println("Solve is starting!") ;
     if (startingRow < 0 || startingCol < 0 || startingRow >= board.length || startingCol >= board[0].length) {
       throw new IllegalArgumentException("You cannot call solve and start at a row or column that does not exist!\nHint: You either put in a negative startingRow or StartingCol or went past the board size!") ;
@@ -213,7 +214,7 @@ public class KnightBoard {
       }
     }
     //System.out.println("The board was empty so we can continue!") ;
-    return solveH(startingRow, startingCol, 1) ;
+    return solveHOLD(startingRow, startingCol, 1) ;
   }
   /* Attempt at optimization but maybe it'll be easier with a separate class and by using an ArrayList instead
   private boolean solveOptimization(int row, int col, int level) {
@@ -264,7 +265,7 @@ public class KnightBoard {
   /** level is the # of the knight
   *@return true when the board is solvable from row,col based on level
   */
-  private boolean solveH(int row ,int col, int level) {
+  private boolean solveHOLD(int row ,int col, int level) {
     // check whether row and col won't cause an error
     if (row < 0 || col < 0 || row >= board.length || col >= board[0].length) return false ;
     // this replaces the booleans positive and notOutside that I had before
@@ -278,7 +279,7 @@ public class KnightBoard {
     for (int i = 0 ; i < coordinates.length ; i++) {
       board[row][col] = level ;
       //System.out.println(this.toString()) ;
-      if (solveH(row + coordinates[i][0], col + coordinates[i][1], level + 1)) return true ;
+      if (solveHOLD(row + coordinates[i][0], col + coordinates[i][1], level + 1)) return true ;
       else {
         board[row][col] = 0 ;
       }

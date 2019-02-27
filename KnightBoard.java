@@ -309,15 +309,20 @@ public class KnightBoard {
   *it reaches the end where there are no more tiles available
   */
   public int countH(int row, int col, int level) {
-    if (row < 0 || col < 0 || row >= board.length || col >= board[row].length) return 0 ;
-    if (board[row][col] != 0) return 0 ;
-    if (level == a) return 1 ;
     int total = 0 ;
-    for (int i = 0 ; i < coordinates.length ; i++) {
-      board[row][col] = level ;
-      //System.out.println("This is how the board looks before we try another move: \n" + this.toString()) ;
-      total += countH(row + coordinates[i][0], col + coordinates[i][1], level + 1 ) ;
-      board[row][col] = 0 ;
+    int tempR, tempC ;
+    if (board[row][col] == 0) {
+      if (level == a) return 1 ; // we found 1 solution (for now)
+      for (int i = 0 ; i < 8 ; i++) {
+        tempR = row + coordinates[i][0] ;
+        tempC = col + coordinates[i][1] ;
+        if (tempR >= 0 && tempC >= 0 && tempR < board.length && tempC < board[0].length) {
+          board[row][col] = level ;
+          //System.out.println("This is how the board looks before we try another move: \n" + this.toString()) ;
+          total += countH( tempR, tempC, level + 1) ;
+          board[row][col] = 0 ;
+        }
+      }
     }
     return total ;
   }
